@@ -15,3 +15,59 @@ JOIN olist_customers_dataset c
 JOIN olist_order_items_dataset oi
     ON oi.order_id = o.order_id
 WHERE o.order_status = 'delivered';
+
+CREATE OR REPLACE VIEW customer_summary AS
+SELECT
+    customer_id,
+    COUNT(DISTINCT order_id) AS total_orders,
+    SUM(revenue) AS total_revenue,
+    MIN(order_date) AS first_purchase,
+    MAX(order_date) AS last_purchase,
+    (MAX(order_date) - MIN(order_date)) AS days_active,
+    CASE
+        WHEN COUNT(DISTINCT order_id) = 1 THEN 'One-time'
+        WHEN COUNT(DISTINCT order_id) BETWEEN 2 AND 3 THEN 'Recurring'
+        ELSE 'High-value'
+    END AS segment
+FROM fact_sales
+GROUP BY customer_id;
+
+
+CREATE OR REPLACE VIEW monthly_sales AS
+SELECT
+    DATE_TRUNC('month', order_date)::date AS month_start,
+    TO_CHAR(DATE_TRUNC('month', order_date), 'YYYY-MM') AS year_month,
+    COUNT(DISTINCT order_id) AS total_orders,
+    COUNT(DISTINCT customer_id) AS unique_customers,
+    SUM(revenue) AS total_revenue
+FROM fact_sales
+GROUP BY 1, 2
+ORDER BY 1;
+
+CREATE OR REPLACE VIEW customer_revenue_rank AS
+WITH base AS (
+    SELECT
+        customer_id,
+        SUM(revenue) AS total_revenue,
+        COUNT(DISTINCT order_id) AS total_orders
+    FROM fact_sales
+    GROUP BY customer_id
+)
+SELECT
+    customer_id,
+    total_revenue,
+    total_orders,
+    SUM(total_revenue) OVER (ORDER BY total_revenue DESC) AS running_revenue,
+    SUM(total_revenue) OVER () AS overall_revenue,
+    ROUND(
+        SUM(total_revenue) OVER (ORDER BY total_revenue DESC) /
+        NULLIF(SUM(total_revenue) OVER (), 0),
+        4
+    ) AS cumulative_share
+FROM base;
+
+
+CREATE OR REPLACE VIEW repeat_rate AS
+SELECT
+    COUNT(*) FILTER (WHERE total_orders > 1)::numeric / COUNT(*) AS repeat_rate
+FROM customer_summary;
