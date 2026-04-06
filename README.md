@@ -17,4 +17,4 @@ O SQL foi utilizado em três etapas. Primeiro, as tabelas principais foram criad
 
 Com o python, em primeiro, foi feita a conexão com o banco PostgreSQL via SQLAlchemy para exportar as cinco views para arquivos CSV, deixando tudo organizado na pasta data/. Logo, esses arquivos foram carregados com Pandas para explorar e validar os resultados conferindo os clientes com maior receita, a taxa de recompra e o comportamento de vendas ao longo do tempo.
 
-O Power BI foi utilizado para transformar os dados exportados em um dashboard interativo.
+O Power BI foi utilizado para transformar os dados exportados em um dashboard interativo, com os resultados das análises mostrando: frequência de compra por cliente, segmentação de clientes por recorrência, tempo de atividade do cliente, evolução das vendas ao longo do tempo, concentração de receita por cliente, taxa de recompra
