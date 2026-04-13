@@ -5,16 +5,48 @@ Este projeto analisa o comportamento de clientes em um dataset de e-commerce com
 
 O objetivo é ir além de análises básicas de vendas e entender como os clientes se comportam ao longo do tempo.
 
+## Objetivo
+
+O projeto busca responder perguntas como:
+
+- quantos clientes compram apenas uma vez
+- quantos voltam a comprar
+- como a receita evolui mês a mês
+- quais clientes concentram a maior parte da receita
+- como resumir o comportamento do cliente em uma camada analítica simples e reutilizável
+
 ## Dataset
 
 Brazilian E-Commerce Public Dataset (Olist) - https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
 
 Contém dados de pedidos, clientes e transações.
 
-## Análises Realizadas
+## Estrutura do projeto
 
-O SQL foi utilizado em três etapas. Primeiro, as tabelas principais foram criadas no banco de dados PostgreSQL para receber os dados de pedidos, itens e clientes. Depois, os arquivos CSV do dataset Olist foram importados diretamente para essas tabelas. Com tudo carregado, foram criadas cinco views para organizar as análises: a fact_sales cruza pedidos, clientes e itens considerando apenas os pedidos entregues a customer_summary agrupa os dados por cliente e os classifica em três perfis compradores únicos, recorrentes e de alto valor a monthly_sales mostra a evolução mensal de pedidos, clientes e receita a customer_revenue_rank rankeia os clientes por receita e calcula quanto cada um representa no total acumulado e a repeat_rate traz a taxa de recompra da base.
+```text
+customerBehaviorAnalysis/
+├── data/
+│   ├── olist_orders_dataset.csv
+│   ├── olist_order_items_dataset.csv
+│   ├── olist_customers_dataset.csv
+│   ├── fact_sales.csv
+│   ├── customer_summary.csv
+│   ├── monthly_sales.csv
+│   ├── customer_revenue_rank.csv
+│   └── repeat_rate.csv
+├── python/
+│   ├── export_powerbi.py
+│   └── analysis.py
+├── sql/
+│   ├── create_tables.sql
+│   ├── importData.sql
+│   └── base.sql
+└── README.md
+```
+## Análises realizadas
 
-Com o python, em primeiro, foi feita a conexão com o banco PostgreSQL via SQLAlchemy para exportar as cinco views para arquivos CSV, deixando tudo organizado na pasta data/. Logo, esses arquivos foram carregados com Pandas para explorar e validar os resultados conferindo os clientes com maior receita, a taxa de recompra e o comportamento de vendas ao longo do tempo.
+A etapa em SQL foi responsável por estruturar a base analítica do projeto. Primeiro, foram criadas no PostgreSQL as tabelas que armazenam os dados de clientes, pedidos e itens dos pedidos. Em seguida, os arquivos CSV do dataset da Olist foram importados para o banco. Com os dados carregados, foi construída uma camada analítica por meio de cinco views. A `fact_sales` consolida pedidos, clientes e itens, considerando apenas os pedidos entregues. A `customer_summary` resume o comportamento de cada cliente a partir do número de pedidos, da receita total, da primeira e da última compra, além de classificá-los em perfis como compradores de compra única, recorrentes e frequentes. A `monthly_sales` apresenta a evolução mensal de pedidos, clientes e receita. A `customer_revenue_rank` organiza os clientes por receita e calcula sua participação acumulada no faturamento total. Por fim, a `repeat_rate` sintetiza a taxa de recompra da base.
 
-O Power BI foi utilizado para transformar os dados exportados em um dashboard interativo, com os resultados das análises mostrando: frequência de compra por cliente, segmentação de clientes por recorrência, tempo de atividade do cliente, evolução das vendas ao longo do tempo, concentração de receita por cliente, taxa de recompra
+No Python, o projeto foi usado em duas frentes. A primeira foi a conexão com o PostgreSQL por meio do SQLAlchemy para exportar as views analíticas em arquivos CSV, deixando os dados preparados para consumo em outras ferramentas. A segunda foi a leitura desses arquivos com Pandas para uma validação inicial dos resultados, permitindo inspecionar as tabelas geradas, conferir os clientes com maior receita, observar a taxa de recompra e verificar o comportamento das vendas ao longo do tempo.
+
+No Power BI, os dados exportados foram utilizados para a construção de um dashboard interativo voltado à análise do comportamento dos clientes. A visualização reúne indicadores como frequência de compra, segmentação por recorrência, tempo de atividade do cliente, evolução das vendas ao longo do tempo, concentração de receita por cliente e taxa de recompra, permitindo transformar a camada analítica construída em SQL em uma leitura mais clara e visual dos resultados.
