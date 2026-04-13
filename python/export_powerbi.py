@@ -11,7 +11,7 @@ DB_NAME = os.getenv("DB_NAME", "ecommerce")
 OUTPUT_DIR = "data"
 
 engine = create_engine(
-    f"postgresql://renan:123@localhost:5432/ecommerce"
+    f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 )
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
