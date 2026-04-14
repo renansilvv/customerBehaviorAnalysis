@@ -10,7 +10,7 @@ O objetivo é ir além de análises básicas de vendas e entender como os client
 O dashboard final foi desenvolvido no Power BI com foco em visão executiva e análise do perfil dos clientes.
 
 ### Visão Geral
-![Visão Geral](assets/images/visao-geral.png)
+![Visão Geral](assets/images/visão-geral.png)
 
 ### Perfil dos Clientes
 ![Perfil dos Clientes](assets/images/perfil-dos-clientes.png)
