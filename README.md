@@ -5,6 +5,16 @@ Este projeto analisa o comportamento de clientes em um dataset de e-commerce com
 
 O objetivo é ir além de análises básicas de vendas e entender como os clientes se comportam ao longo do tempo.
 
+## Dashboard
+
+O dashboard final foi desenvolvido no Power BI com foco em visão executiva e análise do perfil dos clientes.
+
+### Visão Geral
+![Visão Geral](assets/images/visao-geral.png)
+
+### Perfil dos Clientes
+![Perfil dos Clientes](assets/images/perfil-dos-clientes.png)
+
 ## Objetivo
 
 O projeto busca responder perguntas como:
