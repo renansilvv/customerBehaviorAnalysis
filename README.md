@@ -31,10 +31,22 @@ Brazilian E-Commerce Public Dataset (Olist) - https://www.kaggle.com/datasets/ol
 
 Contém dados de pedidos, clientes e transações.
 
+## Tecnologias utilizadas
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-D71F00?style=for-the-badge&logo=sqlalchemy&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
+
 ## Estrutura do projeto
 
 ```text
 customerBehaviorAnalysis/
+├── assets/
+│   └── images/
+│       ├── visão-geral.png
+│       └── perfil-dos-clientes.png
 ├── data/
 │   ├── olist_orders_dataset.csv
 │   ├── olist_order_items_dataset.csv
@@ -60,3 +72,7 @@ A etapa em SQL foi responsável por estruturar a base analítica do projeto. Pri
 No Python, o projeto foi usado em duas frentes. A primeira foi a conexão com o PostgreSQL por meio do SQLAlchemy para exportar as views analíticas em arquivos CSV, deixando os dados preparados para consumo em outras ferramentas. A segunda foi a leitura desses arquivos com Pandas para uma validação inicial dos resultados, permitindo inspecionar as tabelas geradas, conferir os clientes com maior receita, observar a taxa de recompra e verificar o comportamento das vendas ao longo do tempo.
 
 No Power BI, os dados exportados foram utilizados para a construção de um dashboard interativo voltado à análise do comportamento dos clientes. A visualização reúne indicadores como frequência de compra, segmentação por recorrência, tempo de atividade do cliente, evolução das vendas ao longo do tempo, concentração de receita por cliente e taxa de recompra, permitindo transformar a camada analítica construída em SQL em uma leitura mais clara e visual dos resultados.
+
+## Principais insights
+
+A análise mostrou uma base com aproximadamente 93 mil clientes e 96 mil pedidos, o que já indica uma relação relativamente baixa entre clientes e recompra. Esse comportamento aparece de forma ainda mais clara na taxa de recompra, de 3,00%, sugerindo predominância de clientes de compra única. Também foi possível observar concentração de receita em um grupo reduzido de clientes com maior faturamento, além de uma trajetória de crescimento nas vendas ao longo do período analisado, especialmente entre 2017 e 2018.
