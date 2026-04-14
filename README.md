@@ -51,11 +51,6 @@ customerBehaviorAnalysis/
 │   ├── olist_orders_dataset.csv
 │   ├── olist_order_items_dataset.csv
 │   ├── olist_customers_dataset.csv
-│   ├── fact_sales.csv
-│   ├── customer_summary.csv
-│   ├── monthly_sales.csv
-│   ├── customer_revenue_rank.csv
-│   └── repeat_rate.csv
 ├── python/
 │   ├── export_powerbi.py
 │   └── analysis.py
@@ -65,6 +60,59 @@ customerBehaviorAnalysis/
 │   └── base.sql
 └── README.md
 ```
+## Como executar
+
+### 1. Criar o banco de dados
+
+Crie um banco PostgreSQL com o nome `ecommerce`, ou ajuste os parâmetros de conexão de acordo com o seu ambiente.
+
+### 2. Configurar as variáveis de ambiente
+
+O script Python utiliza as seguintes variáveis de ambiente para conexão com o banco de dados:
+
+- `DB_USER`
+- `DB_PASSWORD`
+- `DB_HOST`
+- `DB_PORT`
+- `DB_NAME`
+
+Você pode usar o arquivo `.env.example` como referência para essa configuração.
+
+### 3. Instalar as dependências Python
+
+` ```bash 
+pip install -r requirements.txt `
+
+### 4. Executar os scripts SQL na ordem correta
+
+Primeiro, crie as tabelas no PostgreSQL:
+
+create_tables.sql
+
+Depois, importe os dados brutos:
+
+importData.sql
+
+Por fim, crie a camada analítica:
+
+base.sql
+
+### 5. Exportar as views analíticas
+
+Depois de preparar o banco, execute o script responsável por exportar as views para arquivos CSV:
+
+python python/export_powerbi.py
+
+### 6. Validar os dados exportados
+
+Para conferir a saída gerada e validar as principais tabelas analíticas:
+
+python python/analysis.py
+
+### 7. Construir o dashboard no Power BI
+
+Com os arquivos CSV gerados na pasta data/, importe os dados no Power BI e utilize-os na construção do dashboard final.
+
 ## Análises realizadas
 
 A etapa em SQL foi responsável por estruturar a base analítica do projeto. Primeiro, foram criadas no PostgreSQL as tabelas que armazenam os dados de clientes, pedidos e itens dos pedidos. Em seguida, os arquivos CSV do dataset da Olist foram importados para o banco. Com os dados carregados, foi construída uma camada analítica por meio de cinco views. A `fact_sales` consolida pedidos, clientes e itens, considerando apenas os pedidos entregues. A `customer_summary` resume o comportamento de cada cliente a partir do número de pedidos, da receita total, da primeira e da última compra, além de classificá-los em perfis como compradores de compra única, recorrentes e frequentes. A `monthly_sales` apresenta a evolução mensal de pedidos, clientes e receita. A `customer_revenue_rank` organiza os clientes por receita e calcula sua participação acumulada no faturamento total. Por fim, a `repeat_rate` sintetiza a taxa de recompra da base.
